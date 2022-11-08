@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "production": "vite build"
   },
   "devDependencies": {
     "@fontsource/poppins": "^4.5.10",
