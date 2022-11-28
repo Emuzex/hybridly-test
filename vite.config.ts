@@ -17,13 +17,15 @@ export default defineConfig({
 	plugins: [
 		laravel({
 			input: 'resources/application/main.ts',
-			//valetTls: true,
+			refresh: [
+				'app/Policies/**',
+			],
 		}),
 		run([
 			{
 				name: 'generate typescript',
 				run: ['php', 'artisan', 'typescript:transform'],
-				condition: (file) => ['Data.php', 'Enums'].some((kw) => file.includes(kw)),
+				condition: (file) => ['Data.php', 'Enums', 'Policy.php'].some((kw) => file.includes(kw)),
 			},
 			{
 				name: 'generate i18n',
@@ -40,6 +42,7 @@ export default defineConfig({
 			},
 		}),
 		autoimport({
+			vueTemplate: true,
 			dts: 'resources/types/auto-imports.d.ts',
 			imports: [
 				'vue',
@@ -47,7 +50,9 @@ export default defineConfig({
 				'@vueuse/head',
 				hybridlyImports,
 			],
-			vueTemplate: true,
+			dirs: [
+				'./resources/scripts',
+			],
 		}),
 		components({
 			dirs: [
@@ -71,6 +76,9 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@': path.join(process.cwd(), 'resources'),
+			// Fix for local development, not useful in real apps. When symlinking Hybridly,
+			// different Vue instances are used and it crashes the application
+			'vue': path.join(process.cwd(), '/node_modules/vue/dist/vue.esm-bundler.js'),
 		},
 	},
 })
