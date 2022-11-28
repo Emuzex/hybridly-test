@@ -23,3 +23,4 @@ resources/types/*.d.ts
 !resources/types/hybridly.d.ts
 !resources/types/shims-*.d.ts
 resources/i18n/locales.json
+/node_modules/
